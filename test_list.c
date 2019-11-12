@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 14:33:58 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/12 16:49:41 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/12 18:02:22 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void TestAddFront()
 {
 	printf("\n\n	ft_lstadd_front\n");
 	t_list	*array[10];
-	t_list	*result;
+	t_list	*result = NULL;
 
 	// Initialize all desired elements
 	for (int i=0; i<10; i++){
@@ -61,7 +61,7 @@ void TestAddFront()
 	}
 
 	// Chain them together
-	for (int i=9; i<=0; i--){
+	for (int i=9; i>=0; i--){
 		ft_lstadd_front(&result, array[i]);
 		if (!result){
 			printf("[%d] Unexpected NULL return value.\n", i);
@@ -78,7 +78,7 @@ void TestAddFront()
 
 	// Check the final list.
 	t_list *cursor = result;
-	for (int i=0; i<10; i++)
+	for (int i=0; i<10; i++, cursor=cursor->next)
 		if (!cursor || !cursor->content || cursor->content != &data[i]){
 			printf("Unexpected final product. \n Expected: %s \n Got: ", data);
 			while (result){

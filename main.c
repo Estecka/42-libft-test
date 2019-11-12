@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 13:06:51 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/12 14:57:33 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/12 18:01:18 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ int	main()
 	// Bonus
 	#ifdef BONUS
 	TestNew();
+	TestAddFront();
 	#endif
 }
