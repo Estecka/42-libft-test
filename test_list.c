@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 14:33:58 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/12 18:02:22 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/13 10:47:04 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,48 @@ void TestAddFront()
 	// Free the critters
 	for (int i=0; i<10; i++)
 		free(array[i]);
+}
+
+void TestAddBack()
+{
+	printf("\n\n	ft_lstadd_back\n");
+	t_list	array[10];
+	t_list	*result = NULL;
+
+	// Initialize all desired elements
+	bzero(array, 10 * sizeof(t_list));
+	for (int i=0; i<10; i++)
+		array[i].content = &data[i];
+
+	// Chain them together
+	for (int i=0; i<10; i++){
+		int start = i / 2;
+		if (i > 0)
+			result = &array[start];
+		ft_lstadd_back(&result, &array[i]);
+		if (!result){
+			printf("[%d] Unexpected NULL return value.\n", i);
+		}
+		else if (result != &array[start]){
+			printf("[%d] Unexpected return value.\n Expected %p \n Got %p \n", i, &array[i], result);
+		}
+		else if (!result->content)
+			printf("[%d] Unexpected NULL content\n", i);
+		else if (result->content != &data[start])
+			printf("[%d] Unexpected content. \n Expected: %p \n Got: %p\n", i, &data[i], result->content);
+	}
+
+	// Check the final list.
+	t_list *cursor = &array[0];
+	for (int i=0; i<10; i++, cursor=cursor->next)
+		if (!cursor || !cursor->content || cursor->content != &data[i]){
+			printf("Unexpected final product. \n Expected: %s \n Got: ", data);
+			while (result){
+				printf("%c", *(char*)result->content);
+				result = result->next;
+			}
+			printf("\n");
+			break;
+		}
 }
 #endif
