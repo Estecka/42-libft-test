@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 14:33:58 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/13 10:59:52 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/13 11:15:50 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,28 @@ void TestNew()
 
 	free(neighbour);
 	free(buffer);
+}
+
+void TestSize()
+{
+	t_list array[10];
+	bzero(array, 10 * sizeof(t_list));
+
+	for (int i=1; i<10; i++)
+		array[i-1].next = &array[i];
+
+	printf("\n\n	ft_lstsize\n");
+	int size = ft_lstsize(array);
+	if (size != 10)
+		printf("Wrong result. \n Expected: 10 \n Got: %d \n", size);
+	size = ft_lstsize(NULL);
+	if (size != 0)
+		printf("NULL lists not supported. \n Expected: 0 \n Got: %d \n", size);
+
+	printf("\n\n	ft_lstlast\n");
+	t_list *last = ft_lstlast(array);
+	if (last != &array[9])
+		printf("Wrong result. \n Expected: %p \n Got: %p \n", &array[9], last);
 }
 
 void TestAddFront()
