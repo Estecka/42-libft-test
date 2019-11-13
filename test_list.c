@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 14:33:58 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/13 15:28:50 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/13 17:08:24 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,5 +287,38 @@ void TestMap()
 			cursor = next;
 		}
 	}
+}
+
+void _delone(void *obj)
+{
+	*(char*)obj = 0;
+}
+void TestDelone()
+{
+	t_list array[2];
+
+	memset(output, ~0, 3);
+	bzero(array, 2 * sizeof(t_list));
+	for (int i=0; i<2; i++)
+		array[i].content = &output[i+1];
+	array[0].next = &array[1];
+
+	t_list *target = (t_list*)malloc(sizeof(t_list));
+	target->content = output;
+	target->next = &array[0];
+
+	printf ("\n\n\tft_lstdelone\n");
+	ft_lstdelone(target, _delone);
+
+	if (output[0] != 0)
+		printf("Content not deleted.\n");
+	if ((output[1] & output [2]) != ~0)
+		printf("Excessive deletion.\n");
+
+	if (array[0].next != &array[1])
+		printf("Following element was unliked\n");
+	if (array[0].content != &output[1]
+	 || array[1].content != &output[2])
+		printf("Following elements were messed with.\n");
 }
 #endif

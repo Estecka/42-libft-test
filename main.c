@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 13:06:51 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/13 14:47:09 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/13 15:37:03 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ int	main()
 	TestAddBack();
 	TestIter();
 	TestMap();
+	TestDelone();
 	#endif
 }
