@@ -6,13 +6,14 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 14:33:58 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/13 11:15:50 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/13 12:01:47 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifdef BONUS
 
 #include "../libft.h"
+#include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -156,4 +157,47 @@ void TestAddBack()
 			break;
 		}
 }
+
+static char output[10];
+static void _iterate(void *elt)
+{
+	char *cursor = output;
+	char content = *(char*)elt;
+
+	for (int i=0; i<10; i++)
+	{
+		if (!output[i]){
+			if (content != i + '0')
+				printf("[%d] Unexpected content: %c \n", i, content);
+			output[i] = content;
+			return;
+		}
+	}
+
+	printf("Index out of range : %c \n", content);
+}
+void TestIter()
+{
+	printf("\n\n	ft_lstiter\n");
+	t_list array[10];
+	bzero(array, 10 * sizeof(t_list));
+	bzero(output, 10);
+
+	for (int i=0; i<10; i++){
+		array[i].content = &data[i];
+		if (i > 0)
+			array[i-1].next = &array[i];
+	}
+
+	ft_lstiter(array, _iterate);
+	for (int i=0; i<10; i++)
+	if (output[i] != data[i]) {
+		printf("Unexpected final product \n Expected: %s \n Got: ", data);
+		for (int j=0; j<10; j++)
+			printf("%c", output[i]);
+		printf(" \n");
+		break;
+	}
+}
+
 #endif
