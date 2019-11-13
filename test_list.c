@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 14:33:58 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/13 17:08:24 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/13 17:56:50 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,7 +291,10 @@ void TestMap()
 
 void _delone(void *obj)
 {
-	*(char*)obj = 0;
+	char *c = (char*)obj;
+	if (*c != ~0)
+		printf("Unexpected deletion : %x", *c);
+	*c = 0;
 }
 void TestDelone()
 {
@@ -320,5 +323,27 @@ void TestDelone()
 	if (array[0].content != &output[1]
 	 || array[1].content != &output[2])
 		printf("Following elements were messed with.\n");
+}
+void TestClear()
+{
+	printf("\n\n\tft_lstclear\n");
+	t_list *array[10];
+
+	memset(output, ~0, 10);
+	for (int i=0; i<10; i++) {
+		array[i] = (t_list*)malloc(sizeof(t_list));
+		array[i]->content = &output[i];
+		if (i>0)
+			array[i-1]->next = array[i];
+	}
+	array[9]->next = NULL;
+
+	ft_lstclear(array, _delone);
+
+	if (array[0] != NULL)
+		printf("Pointer not set to NULL.\n");
+	for (int i=0; i<10; i++)
+		if (output[i] != 0)
+			printf("[%d] Content not deleted\n", i);
 }
 #endif
