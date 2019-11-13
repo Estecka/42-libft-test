@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 14:33:58 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/13 14:57:35 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/13 15:28:50 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <string.h>
 
 static char data[] = "0123456789";
+static char output[10];
 
 void TestNew()
 {
@@ -158,7 +159,6 @@ void TestAddBack()
 		}
 }
 
-static char output[10];
 static void _iterate(void *elt)
 {
 	char content = *(char*)elt;
@@ -174,6 +174,11 @@ static void _iterate(void *elt)
 	}
 
 	printf("Index out of range : %c \n", content);
+}
+static void _nulliter(void *arg)
+{
+	(void)arg;
+	printf("Iterating over a null list.\n");
 }
 void TestIter()
 {
@@ -197,6 +202,8 @@ void TestIter()
 		printf(" \n");
 		break;
 	}
+
+	ft_lstiter(NULL, _nulliter);
 }
 
 static void *_map(void *obj)
@@ -212,6 +219,12 @@ static void *_map(void *obj)
 		}
 	printf("Index out of range. (%c)\n", *content);
 	return (NULL);
+}
+static void *_nullmap(void *arg)
+{
+	(void)arg;
+	printf("Mapping over a NULL list\n");
+	return NULL;
 }
 static void _noop (void* c) { (void)c; }
 void TestMap()
@@ -260,6 +273,19 @@ void TestMap()
 		t_list *next = cursor->next;
 		free(cursor);
 		cursor = next;
+	}
+
+	//Null check
+	result = ft_lstmap(NULL, _nullmap, _noop);
+	if (result != NULL) {
+		printf("NULL list yields result.");
+
+		cursor = result;
+		while (cursor) {
+			t_list *next = cursor->next;
+			free(cursor);
+			cursor = next;
+		}
 	}
 }
 #endif
