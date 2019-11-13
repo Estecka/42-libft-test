@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 14:33:58 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/13 10:47:04 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/13 10:59:52 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../libft.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 static char data[] = "0123456789";
 
@@ -32,6 +33,8 @@ void TestNew()
 
 	if (elt->content != boop)
 		printf("Unexpected content. \n Expected: %p \n Got: %p\n", boop, elt->content);
+	if (elt->next != NULL)
+		printf("Next element is not NULL. \n Got: %p \n", elt->next);
 
 	char *buffer = (char*)elt;
 	for  (int i=0; i<size; i++)
@@ -51,24 +54,23 @@ void TestNew()
 void TestAddFront()
 {
 	printf("\n\n	ft_lstadd_front\n");
-	t_list	*array[10];
+	t_list	array[10];
 	t_list	*result = NULL;
 
 	// Initialize all desired elements
-	for (int i=0; i<10; i++){
-		array[i] = malloc(sizeof(t_list));
-		array[i]->content = &data[i];
-	}
+	bzero(array, 10 * sizeof(t_list));
+	for (int i=0; i<10; i++)
+		array[i].content = &data[i];
 
 	// Chain them together
 	for (int i=9; i>=0; i--){
-		ft_lstadd_front(&result, array[i]);
+		ft_lstadd_front(&result, &array[i]);
 		if (!result){
 			printf("[%d] Unexpected NULL return value.\n", i);
-			result = array[i];
+			result = &array[i];
 		}
-		else if (result != array[i]){
-			printf("[%d] Unexpected return value.\n Expected %p \n Got %p \n", i, array[i], result);
+		else if (result != &array[i]){
+			printf("[%d] Unexpected return value.\n Expected %p \n Got %p \n", i, &array[i], result);
 		}
 		else if (!result->content)
 			printf("[%d] Unexpected NULL content\n", i);
@@ -88,10 +90,6 @@ void TestAddFront()
 			printf("\n");
 			break;
 		}
-
-	// Free the critters
-	for (int i=0; i<10; i++)
-		free(array[i]);
 }
 
 void TestAddBack()
