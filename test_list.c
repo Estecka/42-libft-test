@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 14:33:58 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/13 12:01:47 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/13 14:57:35 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,6 @@ void TestAddBack()
 static char output[10];
 static void _iterate(void *elt)
 {
-	char *cursor = output;
 	char content = *(char*)elt;
 
 	for (int i=0; i<10; i++)
@@ -194,10 +193,73 @@ void TestIter()
 	if (output[i] != data[i]) {
 		printf("Unexpected final product \n Expected: %s \n Got: ", data);
 		for (int j=0; j<10; j++)
-			printf("%c", output[i]);
+			printf("%c", output[j]);
 		printf(" \n");
 		break;
 	}
 }
 
+static void *_map(void *obj)
+{
+	char *content = (char*)obj;
+	for (int i=0; i<10; i++)
+		if (!output[i])
+		{
+			output[i] = 'a' + (*content) - '0';
+			if (content != &data[i])
+				printf("[0][%d] Unexpected content. \n Expected: %c @ %p \n Got: %c @ %p \n", i, data[i], &data[i], *content, content);
+			return &output[i];
+		}
+	printf("Index out of range. (%c)\n", *content);
+	return (NULL);
+}
+static void _noop (void* c) { (void)c; }
+void TestMap()
+{
+	printf("\n\n	ft_lstmap\n");
+
+	// Init dat all
+	bzero(output, 10);
+
+	t_list array[10];
+	bzero(array, 10 * sizeof(t_list));
+	for (int i=0; i<10; i++)
+	{
+		array[i].content = &data[i];
+		if (i>0)
+			array[i-1].next = &array[i];
+	}
+
+	// Ju-dee, do the thing
+	t_list *result = ft_lstmap(array, _map, _noop);
+
+	//Check the order of execution
+	for (int i=0; i<10; i++)
+	if (output[i] != 'a' + i)
+	{
+		printf("Unexpected order of execution. \n Expected: abcdefghij \n Got : ");
+		for (int j=0; j<10; j++)
+			printf("%c", output[j]);
+		printf("\n");
+		break;
+	}
+
+	// Check the order of chaining
+	t_list *cursor = result;
+	for (int i=0; cursor!=NULL; i++, cursor=cursor->next) {
+		char *content = cursor->content;
+		if (i >= 10)
+			printf("[1][%d] Index out of range. (%c)", i, *content);
+		else if (content != &output[i])
+			printf("[1][%d] Unexpected content. \n Expected: %c @ %p \n Got: %c @ %p \n", i, output[i], &output[i], *content, content);
+	}
+
+	// free the bees
+	cursor = result;
+	while (cursor) {
+		t_list *next = cursor->next;
+		free(cursor);
+		cursor = next;
+	}
+}
 #endif
