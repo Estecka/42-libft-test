@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 13:06:51 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/13 17:51:52 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/14 11:39:17 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,16 @@
 
 #include "../libft.h"
 
+#include "test_characters.c"
+
 #ifdef BONUS
 #include "test_list.c"
 #endif
 
 int	main()
 {
+	// Characters
+	TestCharacters();
 
 	// Bonus
 	#ifdef BONUS

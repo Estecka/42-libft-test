@@ -1,4 +1,4 @@
-SRCS	= *.c ../*.c
+SRCS	= main.c ../*.c
 
 test: 
 	gcc ${SRCS} -Wall -Wextra
