@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 12:18:50 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/15 11:14:04 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/15 11:27:24 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,27 @@ static void TestJoin()
 	TestJoinOne("",   "",   "\0");
 }
 
+static void TestTrimOne(char const *src, char const *set, char const *expected)
+{
+	char *dst = ft_strtrim(src, set);
+	Comparate(dst, expected);
+	if (dst)
+		free(dst);
+}
+static void TestTrim()
+{
+	printf("\n\n\tft_strtrim\n");
+
+	TestTrimOne("-+-+Be+ep+-+-", "+-*", "Be+ep");
+	TestTrimOne("Boop+*+-+-+-+", "+-*", "Boop" );
+	TestTrimOne("+-+*Bo*p",      "+-*", "Bo*p" );
+}
+
 void TestStrings()
 {
 	TestDup();
 	TestSubs();
 	TestJoin();
+	TestTrim();
 }
 
