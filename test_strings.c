@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 12:18:50 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/15 11:27:24 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/15 13:59:34 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,18 @@
 static int Comparate(const char *src, const char *dst)
 {
 	if (!dst && src) {
-		printf("Result is NULL\n");
+		printf("Result is NULL. Expected: %s \n", src);
 		return (0);
+	}
+
+	if (!src && dst){
+		printf("Expected NULL string, got: %s", dst);
+		return 0;
 	}
 
 	int i = 0;
 	do {
-		if (src[i] == '\0' && dst[i] != '\0')
-			printf("Not Null Terminated.\n");
-		else if (src[i] != dst[i]){
+		if (src[i] != dst[i]){
 			printf("Difference found \n Expected: %s \n Returned: %s \n", src, dst);
 			return (0);
 		}
@@ -108,11 +111,48 @@ static void TestTrim()
 	TestTrimOne("+-+*Bo*p",      "+-*", "Bo*p" );
 }
 
+static void TestSplitOne(const char *src, char c, char **expected)
+{
+	char **result = ft_split(src, c);
+
+	if (!result){
+		printf("NULL result. \n");
+		return;
+	}
+
+	for (int i=0, j=0; expected[i] || result[j]; i++, j++){
+		Comparate(expected[i], result[j]);
+		if (!expected[i])
+			i--;
+		if (!result[j])
+			j--;
+	}
+
+	for (char **cursor=result; *cursor; cursor++)
+		free(*cursor);
+	free(result);
+}
+static void TestSplit()
+{
+	char *src = "Je suis une bulle\0";
+
+	char *solusp[5] = {"Je", "suis", "une", "bulle", NULL};
+	char *solue [4] = {"J", " suis un", " bull", NULL};
+	char *solul [3] = {"Je suis une bu", "e", NULL};
+
+	printf("\n\n\tft_split\n");
+
+	TestSplitOne(src, ' ', solusp);
+	TestSplitOne(src, 'e', solue );
+	TestSplitOne(src, 'l', solul );
+}
+
 void TestStrings()
 {
 	TestDup();
 	TestSubs();
 	TestJoin();
 	TestTrim();
+	TestSplit();
 }
 
