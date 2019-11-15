@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 12:18:50 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/15 17:34:25 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/15 17:49:18 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,6 +270,25 @@ void TestChr()
 	TestChrOne(ft_strrchr, strrchr, "Banana", '-');
 }
 
+void TestStrnstrOne(const char *needle, const char *haystack, size_t len)
+{
+	char *exp =    strnstr(needle, haystack, len);
+	char *got = ft_strnstr(needle, haystack, len);
+
+	if (exp != got)
+		printf("%s in %s \n Expected: %s \t @ %p \n Returned: %s \t @ %p \n", needle, haystack, exp, exp, got, got);
+}
+void TestStrnstr()
+{
+	printf("\n\n\tft_strnstr\n");
+
+	TestStrnstrOne("BananananaSplit", "nana", 10);
+	TestStrnstrOne("Bananano", "nano", 10);
+	TestStrnstrOne("Bananano", "nano", 3);
+	TestStrnstrOne("Bananano", "N/A", 100);
+	TestStrnstrOne("Bananano", "", 0);
+}
+
 void TestStrings()
 {
 	TestDup();
@@ -283,5 +302,6 @@ void TestStrings()
 	TestlCat();
 	TestnCmp();
 	TestChr();
+	TestStrnstr();
 }
 
