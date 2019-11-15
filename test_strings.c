@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 12:18:50 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/15 17:15:51 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/15 17:34:25 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,6 +247,29 @@ void TestnCmp()
 	TestnCmpOne("Beep", "", 2);
 }
 
+void TestChrOne(char *(*ft_)(const char*,int), char*(*lib)(const char*,int), const char *s, int c)
+{
+	char *exp = lib(s, c);
+	char *got = ft_(s, c);
+
+	if (exp != got)
+		printf("%c in %s \n Expected: %s @\t%p \n Returned: %s @\t%p \n", c, s, exp, exp, got, got);
+}
+void TestChr()
+{
+	printf("\n\n\tft_strchr\n");
+	TestChrOne(ft_strchr, strchr, "Banana", 'a');
+	TestChrOne(ft_strchr, strchr, "Banana", 'n');
+	TestChrOne(ft_strchr, strchr, "Banana", 'B');
+	TestChrOne(ft_strchr, strchr, "Banana", '-');
+
+	printf("\n\n\tft_strrchr\n");
+	TestChrOne(ft_strrchr, strrchr, "Banana", 'a');
+	TestChrOne(ft_strrchr, strrchr, "Banana", 'n');
+	TestChrOne(ft_strrchr, strrchr, "Banana", 'B');
+	TestChrOne(ft_strrchr, strrchr, "Banana", '-');
+}
+
 void TestStrings()
 {
 	TestDup();
@@ -259,5 +282,6 @@ void TestStrings()
 	TestlCpy();
 	TestlCat();
 	TestnCmp();
+	TestChr();
 }
 
