@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 12:18:50 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/15 15:18:11 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/15 16:11:50 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,13 @@ static int Comparate(const char *src, const char *dst)
 }
 static void Discomparate(const char *src, const char *dst)
 {
+	const char *found = src;
 	while (*src == *dst){
-		if (*src == 0)
-			return (void)printf("Probably seeking out too far.");
+		if (*src == 0){
+			printf("Probably seeking out too far.\n");
+			printf("Found: %s \n", found);
+			return;
+		}
 		src++;
 		dst++;
 	}
@@ -167,6 +171,39 @@ static void TestMapi()
 	TestMapiOne("M", "M");
 }
 
+static void TestLen()
+{
+	char *bneh[4] = {"Bulle", "Balle\0hihi", "Gneh", ""};
+
+	for (int i=0; i<4; i++) {
+		int got = ft_strlen(bneh[i]);
+		int exp = strlen(bneh[i]);
+		if (got != exp)
+			printf("%s \n Expected: %d \n Returned: %d \n", bneh[i], exp, got);
+	}
+}
+
+static void TestlCpyOne(char *src, int l, char *expected)
+{
+	char *buffer = malloc(l+1);
+	memset(buffer, ~0, l+1);
+
+	ft_strlcpy(buffer, src, l);
+	int size = Comparate(expected, buffer);
+	if (size > 0)
+		Discomparate(&src[size], &buffer[size]);
+	free(buffer);
+}
+static void TestlCpy()
+{
+	printf("\n\n\tft_strlcpy\n");
+	TestlCpyOne("Banana\0split", 9, "Banana");
+	TestlCpyOne("Benene", 7, "Benene");
+	TestlCpyOne("Binini", 6, "Binin\0");
+	TestlCpyOne("Bonono", 4, "Bon");
+	TestlCpyOne("\0Bununu", 6, "\0");
+}
+
 void TestStrings()
 {
 	TestDup();
@@ -175,5 +212,7 @@ void TestStrings()
 	TestTrim();
 	TestSplit();
 	TestMapi();
+	TestLen();
+	TestlCpy();
 }
 
