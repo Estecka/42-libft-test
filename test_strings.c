@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 12:18:50 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/15 16:11:50 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/15 16:37:49 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,29 @@ static void TestlCpy()
 	TestlCpyOne("\0Bununu", 6, "\0");
 }
 
+static void TestlCatOne(const char *src1, const char *src2, int l, const char *expected)
+{
+	char *buffer = malloc(l+1);
+	memset(buffer, ~0, l+1);
+	strcpy(buffer, src1);
+
+	ft_strlcat(buffer, src2, l);
+	int size = Comparate(expected, buffer);
+	if (size>0)
+		Discomparate(&expected[size], &buffer[size]);
+
+	free(buffer);
+}
+static void TestlCat()
+{
+	printf("\n\n\tft_strlcat\n");
+
+	TestlCatOne("Banana", "Split", 6+5+1, "BananaSplit");
+	TestlCatOne("Beep", "\0Boop",  5+6+1, "Beep");
+	TestlCatOne("\0Beep", "Boop",  6+5+1, "Boop");
+	TestlCatOne("\0Beep", "\0Boop",6+6+1, "\0");
+}
+
 void TestStrings()
 {
 	TestDup();
@@ -214,5 +237,6 @@ void TestStrings()
 	TestMapi();
 	TestLen();
 	TestlCpy();
+	TestlCat();
 }
 
