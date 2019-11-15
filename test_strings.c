@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 12:18:50 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/15 16:37:49 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/15 17:15:51 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,6 +227,26 @@ static void TestlCat()
 	TestlCatOne("\0Beep", "\0Boop",6+6+1, "\0");
 }
 
+void TestnCmpOne(const char *src1, const char *src2, size_t n)
+{
+	int result = ft_strncmp(src1, src2, n);
+	int expect =    strncmp(src1, src2, n);
+
+	if (result != expect)
+		printf("\"%s\" vs \"%s\" len %zu \n Expected: %d \n Returned: %d \n", src1, src2, n, expect, result);
+}
+void TestnCmp()
+{
+	printf("\n\n\tft_stncmp\n");
+
+	TestnCmpOne("Bneh\0aaaaaa", "Bneh\0bbbbbb", 10);
+	TestnCmpOne("Bnehaaaaaa", "Bnehbbbbbb", 4);
+	TestnCmpOne("Pin", "Pon", 4);
+	TestnCmpOne("", "", 4);
+	TestnCmpOne("Beep", "", 0);
+	TestnCmpOne("Beep", "", 2);
+}
+
 void TestStrings()
 {
 	TestDup();
@@ -238,5 +258,6 @@ void TestStrings()
 	TestLen();
 	TestlCpy();
 	TestlCat();
+	TestnCmp();
 }
 
