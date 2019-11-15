@@ -6,15 +6,22 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 12:18:50 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/14 15:43:45 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/15 11:14:04 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../libft.h"
 
 #include <stdio.h>
 #include <string.h>
 
 static int Comparate(const char *src, const char *dst)
 {
+	if (!dst && src) {
+		printf("Result is NULL\n");
+		return (0);
+	}
+
 	int i = 0;
 	do {
 		if (src[i] == '\0' && dst[i] != '\0')
@@ -64,9 +71,31 @@ static void TestSubs()
 	TestSubOne(src, 10, 4, "\0");
 }
 
+
+static void TestJoinOne(const char *src1, const char *src2, const char *expected)
+{
+	char *dst = ft_strjoin(src1, src2);
+	Comparate(expected, dst);
+	if (dst)
+		free(dst);
+}
+static void TestJoin()
+{
+	char *src1 = "01234\0";
+	char *src2 = "56789\0";
+
+	printf("\n\n\tft_strjoin\n");
+
+	TestJoinOne(src1, src2, "0123456789\0");
+	TestJoinOne(src1, "",   "01234\0");
+	TestJoinOne("",   src2, "56789\0");
+	TestJoinOne("",   "",   "\0");
+}
+
 void TestStrings()
 {
 	TestDup();
 	TestSubs();
+	TestJoin();
 }
 
