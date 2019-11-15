@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 12:18:50 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/15 13:59:34 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/15 15:18:11 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,26 @@ static void TestSplit()
 	TestSplitOne(src, 'l', solul );
 }
 
+static char _mapi(unsigned int i, char c)
+{
+	return (i%2) ? '0'+i : c;
+}
+static void TestMapiOne(const char *src, const char *expected)
+{
+	char *result = ft_strmapi(src, _mapi);
+	Comparate(expected, result);
+	if (result)
+		free (result);
+}
+static void TestMapi()
+{
+	printf("\n\n\tft_strmapi\n");
+
+	TestMapiOne("Megalodon", "M1g3l5d7n");
+	TestMapiOne("", "");
+	TestMapiOne("M", "M");
+}
+
 void TestStrings()
 {
 	TestDup();
@@ -154,5 +174,6 @@ void TestStrings()
 	TestJoin();
 	TestTrim();
 	TestSplit();
+	TestMapi();
 }
 
