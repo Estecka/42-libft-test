@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 12:21:55 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/18 16:53:22 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/18 17:22:46 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,10 +155,30 @@ static void TestCcpy()
 	TestOneCcpy("0101010101", '\0');
 }
 
+static void TestOneMemcmp(const void* s1, const void* s2, size_t n)
+{
+	int	expected =    memcmp(s1, s2, n);
+	int	returned = ft_memcmp(s1, s2, n);
+
+	if (expected != returned)
+		printf("`%s` vs `%s` \n Expected: %d \n Returned: %d \n", s1, s2, expected, returned);
+}
+static void TestMemcmp()
+{
+	printf("\n\n\tft_memcmp\n");
+
+	TestOneMemcmp("Je", "Je", 3);
+	TestOneMemcmp("suis", "suis", 4);
+	TestOneMemcmp("une bulle", "ton pe1re", 10);
+	TestOneMemcmp("frere", "", 0);
+	TestOneMemcmp("", "\0naaaonn!", 1);
+}
+
 void TestMemory()
 {
 	TestBzero();
 	TestMemset();
 	TestMemcpy();
 	TestCcpy();
+	TestMemcmp();
 }
