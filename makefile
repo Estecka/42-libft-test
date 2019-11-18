@@ -5,6 +5,7 @@ test:
 
 autorun: test
 	./a.out
+	norminette ../*.c ../*.h
 
 clean:
 	rm -f ${OBJS}
