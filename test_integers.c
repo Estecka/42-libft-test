@@ -6,11 +6,14 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 10:26:33 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/18 11:13:46 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/18 15:26:21 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../libft.h"
+
 #include <stdlib.h>
+#include <stdio.h>
 
 char* errorHeader = NULL;
 

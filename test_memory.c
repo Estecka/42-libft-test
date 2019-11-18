@@ -6,11 +6,14 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 12:21:55 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/18 15:11:11 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/18 15:30:29 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../libft.h"
+
 #include <string.h>
+#include <stdio.h>
 
 static void ComparateBuffer(const void* expected, const void* returned, int size)
 {
@@ -93,6 +96,8 @@ static void TestOneCpy(const char* src)
 }
 static void TestMemcpy()
 {
+	printf("\n\n\tft_memcpy\n");
+
 	TestOneCpy("");
 	TestOneCpy("Je\0suis");
 	TestOneCpy("ton\0peeeeere");

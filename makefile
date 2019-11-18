@@ -1,4 +1,6 @@
-SRCS	= main.c ../*.c
+SRCS	= *.c ../*.c
+
+OBJS	= ${SRCS:.c=.o}
 
 test: 
 	gcc ${SRCS} -Wall -Wextra

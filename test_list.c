@@ -6,10 +6,11 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 14:33:58 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/13 17:56:50 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/18 15:29:20 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#define BONUS = 1
 #ifdef BONUS
 
 #include "../libft.h"
@@ -21,7 +22,7 @@
 static char data[] = "0123456789";
 static char output[10];
 
-void TestNew()
+static void TestNew()
 {
 	printf("\n\n	ft_lstnew\n");
 	int size = sizeof(t_list);
@@ -53,7 +54,7 @@ void TestNew()
 	free(buffer);
 }
 
-void TestSize()
+static void TestSize()
 {
 	t_list array[10];
 	bzero(array, 10 * sizeof(t_list));
@@ -75,7 +76,7 @@ void TestSize()
 		printf("Wrong result. \n Expected: %p \n Got: %p \n", &array[9], last);
 }
 
-void TestAddFront()
+static void TestAddFront()
 {
 	printf("\n\n	ft_lstadd_front\n");
 	t_list	array[10];
@@ -116,7 +117,7 @@ void TestAddFront()
 		}
 }
 
-void TestAddBack()
+static void TestAddBack()
 {
 	printf("\n\n	ft_lstadd_back\n");
 	t_list	array[10];
@@ -180,7 +181,7 @@ static void _nulliter(void *arg)
 	(void)arg;
 	printf("Iterating over a null list.\n");
 }
-void TestIter()
+static void TestIter()
 {
 	printf("\n\n	ft_lstiter\n");
 	t_list array[10];
@@ -227,7 +228,7 @@ static void *_nullmap(void *arg)
 	return NULL;
 }
 static void _noop (void* c) { (void)c; }
-void TestMap()
+static void TestMap()
 {
 	printf("\n\n	ft_lstmap\n");
 
@@ -289,14 +290,14 @@ void TestMap()
 	}
 }
 
-void _delone(void *obj)
+static void _delone(void *obj)
 {
 	char *c = (char*)obj;
 	if (*c != ~0)
 		printf("Unexpected deletion : %x", *c);
 	*c = 0;
 }
-void TestDelone()
+static void TestDelone()
 {
 	t_list array[2];
 
@@ -324,7 +325,7 @@ void TestDelone()
 	 || array[1].content != &output[2])
 		printf("Following elements were messed with.\n");
 }
-void TestClear()
+static void TestClear()
 {
 	printf("\n\n\tft_lstclear\n");
 	t_list *array[10];
@@ -346,4 +347,17 @@ void TestClear()
 		if (output[i] != 0)
 			printf("[%d] Content not deleted\n", i);
 }
+
+void TestList()
+{
+	TestNew();
+	TestSize();
+	TestAddFront();
+	TestAddBack();
+	TestIter();
+	TestMap();
+	TestDelone();
+	TestClear();
+}
+
 #endif
