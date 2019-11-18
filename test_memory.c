@@ -6,13 +6,13 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 12:21:55 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/18 14:22:47 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/18 15:11:11 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 
-static void ComparateBuffer(void* expected,  void* returned, int size)
+static void ComparateBuffer(const void* expected, const void* returned, int size)
 {
 	char *src = (char*)expected;
 	char *dst = (char*)returned;
@@ -20,6 +20,13 @@ static void ComparateBuffer(void* expected,  void* returned, int size)
 	for (int i=0; i<size; i++)
 	if (src[i] != dst[i])
 		return (void)printf("Difference found. \n Expected: %.*s \n Returned: %.*s \n", size, src, size, dst);
+}
+static short CheckUntouched(char* buffer, int size, char content)
+{
+	for (int i=0; i<size; i++)
+		if (buffer[i] != content)
+			return 1;
+	return 0;
 }
 
 static void TestBzeroOne(int n)
@@ -33,9 +40,8 @@ static void TestBzeroOne(int n)
 		if (buffer[i])
 			printf("[%d][%d] Not zero: 0x%0x\n", n, i, buffer[i]);
 
-	for (int i=n; i<n+8; i++)
-		if (buffer[i] != ~0)
-			printf("[%d][%d] Overflowing buffer (0x%x) \n", n, i, buffer[i]);
+	if (CheckUntouched(&buffer[n], 8, ~0))
+		printf("[%d] Buffer overflow \n", n);
 
 	free(buffer);
 }
@@ -56,9 +62,8 @@ static void TestOneMemset(char c, int n)
 	for (int i=0; i<n; i++)
 		if (buffer[i] != c)
 			printf("[%x-%d][%d] Unexpected Character: %x \n", c, n, i, buffer[i]);
-	for (int i=n; i<n+10; i++)
-		if (buffer[i])
-			printf("[%x-%d][%d] Overflowing buffer (0x%x) \n", c, n, i, buffer[i]);
+	if (CheckUntouched(&buffer[n], 10, 0))
+		printf("[%x-%d] Buffer overflow \n", c, n);
 
 	free(buffer);
 }
@@ -72,8 +77,30 @@ static void TestMemset()
 	TestOneMemset('$', 12);
 }
 
+static void TestOneCpy(const char* src)
+{
+	int size = strlen(src);
+	char* dst = (char*)malloc(size + 10);
+
+	bzero(dst, size + 10);
+	ft_memcpy(dst, src, size);
+
+	ComparateBuffer(src, dst, size);
+	if (CheckUntouched(&dst[size], 10, 0))
+		printf("Buffer overflow: %.*s \n", size, dst);
+
+	free(dst);
+}
+static void TestMemcpy()
+{
+	TestOneCpy("");
+	TestOneCpy("Je\0suis");
+	TestOneCpy("ton\0peeeeere");
+}
+
 void TestMemory()
 {
 	TestBzero();
 	TestMemset();
+	TestMemcpy();
 }
