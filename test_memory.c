@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 12:21:55 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/18 17:22:46 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/18 17:31:13 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,23 @@ static void TestMemcmp()
 	TestOneMemcmp("", "\0naaaonn!", 1);
 }
 
+static void TestOneMemchr(const char* src, char c, int len)
+{
+	void* expected =    memchr(src, c, len);
+	void* returned = ft_memchr(src, c, len);
+
+	if (expected != returned)
+		printf("`%c` in `%s` \n Expected: %p \n Returned: %p \n", c, src, expected, returned);
+}
+static void TestMemchr()
+{
+	printf("\n\n\tft_memchr\n");
+
+	TestOneMemchr("Je suis une bulle", 'l', 17);
+	TestOneMemchr("aaa eee iii ooo uuu", 'i', 5);
+	TestOneMemchr("", 'v', 0);
+}
+
 void TestMemory()
 {
 	TestBzero();
@@ -181,4 +198,5 @@ void TestMemory()
 	TestMemcpy();
 	TestCcpy();
 	TestMemcmp();
+	TestMemchr();
 }
