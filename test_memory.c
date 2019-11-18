@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 12:21:55 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/18 15:30:29 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/18 16:53:22 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,18 @@
 
 #include <string.h>
 #include <stdio.h>
+#include <ctype.h>
+
+static void PrintBuffer(const char* buffer, int size)
+{
+	for (int i=0; i<size; i++) {
+		unsigned char c = buffer[i];
+		if (isprint(c))
+			printf("  %c ", c);
+		else
+			printf(" %02X ", c);
+	}
+}
 
 static void ComparateBuffer(const void* expected, const void* returned, int size)
 {
@@ -21,8 +33,14 @@ static void ComparateBuffer(const void* expected, const void* returned, int size
 	char *dst = (char*)returned;
 
 	for (int i=0; i<size; i++)
-	if (src[i] != dst[i])
-		return (void)printf("Difference found. \n Expected: %.*s \n Returned: %.*s \n", size, src, size, dst);
+	if (src[i] != dst[i]){
+		printf("Difference found. \n Expected: ");
+		PrintBuffer(src, size);
+		printf(" \n Returned: ");
+		PrintBuffer(dst, size);
+		printf(" \n");
+		return;
+	}
 }
 static short CheckUntouched(char* buffer, int size, char content)
 {
@@ -103,9 +121,44 @@ static void TestMemcpy()
 	TestOneCpy("ton\0peeeeere");
 }
 
+static void TestOneCcpy(const char* src, char c)
+{
+	int size = strlen(src);
+	char* dst    = (char*)malloc(size + 10);
+	char* dstexp = (char*)malloc(size);
+	char* result    = NULL;
+	char* resultexp = NULL;
+
+	bzero(dst, size);
+	resultexp = memccpy(dst, src, c, size);
+	memcpy(dstexp, dst, size);
+
+	bzero(dst, size + 10);
+	result = ft_memccpy(dst, src, c, size);
+
+	ComparateBuffer(dstexp, dst, size);
+	if (CheckUntouched(&dst[size], 10, 0))
+		printf("[%c] Buffer overflow", c);
+	if (result != resultexp)
+		printf("[%c] Unexpected return value. \n Expected: %p \n Returned: %p \n", c, resultexp, result);
+
+	free (dst);
+}
+static void TestCcpy()
+{
+	printf("\n\n\tft_memccpy\n");
+
+	TestOneCcpy("", 'N');
+	TestOneCcpy("Banana", 'A');
+	TestOneCcpy("0123456789", '5');
+	TestOneCcpy("abcdefghij", '9');
+	TestOneCcpy("0101010101", '\0');
+}
+
 void TestMemory()
 {
 	TestBzero();
 	TestMemset();
 	TestMemcpy();
+	TestCcpy();
 }
