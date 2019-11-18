@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 13:06:51 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/14 15:11:52 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/18 11:00:41 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 #include "test_characters.c"
 #include "test_strings.c"
+#include "test_integers.c"
 
 #ifdef BONUS
 #include "test_list.c"
@@ -29,6 +30,7 @@ int	main()
 {
 	TestCharacters();
 	TestStrings();
+	TestIntegers();
 
 	// Bonus
 	#ifdef BONUS
