@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 12:18:50 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/15 17:49:18 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/19 11:19:08 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,8 @@ static void TestMapi()
 
 static void TestLen()
 {
+	printf("\n\n\tft_strlen\n");
+
 	char *bneh[4] = {"Bulle", "Balle\0hihi", "Gneh", ""};
 
 	for (int i=0; i<4; i++) {
@@ -197,6 +199,7 @@ static void TestlCpyOne(char *src, int l, char *expected)
 static void TestlCpy()
 {
 	printf("\n\n\tft_strlcpy\n");
+
 	TestlCpyOne("Banana\0split", 9, "Banana");
 	TestlCpyOne("Benene", 7, "Benene");
 	TestlCpyOne("Binini", 6, "Binin\0");
@@ -289,6 +292,26 @@ void TestStrnstr()
 	TestStrnstrOne("Bananano", "", 0);
 }
 
+static void TestOneItoa(int value, char* expected)
+{
+	char* got = ft_itoa(value);
+
+	Comparate(expected, got);
+}
+static void TestItoa()
+{
+	printf("\n\n\tft_itoa\n");
+
+	TestOneItoa(0, "0");
+	TestOneItoa(+5, "5");
+	TestOneItoa(-5, "-5");
+	TestOneItoa(+101010, "101010");
+	TestOneItoa(-101010, "-101010");
+	TestOneItoa(+2147483647, "2147483647");
+	TestOneItoa(-2147483647, "-2147483647");
+	TestOneItoa(-2147483648, "-2147483648");
+}
+
 void TestStrings()
 {
 	TestDup();
@@ -303,5 +326,5 @@ void TestStrings()
 	TestnCmp();
 	TestChr();
 	TestStrnstr();
+	TestItoa();
 }
-
