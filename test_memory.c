@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 12:21:55 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/18 17:31:13 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/19 10:41:40 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static void ComparateBuffer(const void* expected, const void* returned, int size
 
 	for (int i=0; i<size; i++)
 	if (src[i] != dst[i]){
-		printf("Difference found. \n Expected: ");
+		printf("Difference found. \n Expected: \n");
 		PrintBuffer(src, size);
-		printf(" \n Returned: ");
+		printf(" \n Returned: \n");
 		PrintBuffer(dst, size);
 		printf(" \n");
 		return;
@@ -191,6 +191,48 @@ static void TestMemchr()
 	TestOneMemchr("", 'v', 0);
 }
 
+static void TestOneMemmove(char* content, int dir)
+{
+	int len = strlen(content);
+	int size = len + 1 + (dir<0 ? -dir : dir);
+
+	char* buffer    = malloc(size);
+	char* bufferexp = malloc(size);
+	char* src = &buffer[dir<0 ? -dir : 0];
+	char* dst = &buffer[dir<0 ? 0 : +dir];
+
+	char* result;
+	char* resultexp;
+
+	bzero(buffer, size);
+	memcpy(src, content, len);
+	resultexp = memmove(dst, src, len);
+
+	memcpy(bufferexp, buffer, size);
+
+	bzero(buffer, size);
+	memcpy(src, content, len);
+	result = ft_memmove(dst, src, len);
+
+	ComparateBuffer(bufferexp, buffer, size);
+	if (result != resultexp)
+		printf("[%d] Unexpected result. \n Expected: %p \n Returned: %p \n", dir, resultexp, result);
+
+	free(buffer);
+	free(bufferexp);
+}
+static void TestMemmove()
+{
+	printf("\n\n\tft_memmove\n");
+
+	TestOneMemmove("Je suis une balle.", -100);
+	TestOneMemmove("Je suis une belle.", +100);
+	TestOneMemmove("Je suis une bille.",   +3);
+	TestOneMemmove("Je suis une bolle.",   -3);
+	TestOneMemmove("Je suis une bulle.",  -10);
+	TestOneMemmove("Je suis une bylle.",  +10);
+}
+
 void TestMemory()
 {
 	TestBzero();
@@ -199,4 +241,5 @@ void TestMemory()
 	TestCcpy();
 	TestMemcmp();
 	TestMemchr();
+	TestMemmove();
 }
