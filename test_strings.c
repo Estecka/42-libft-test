@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 12:18:50 by abaur             #+#    #+#             */
-/*   Updated: 2019/11/19 11:19:08 by abaur            ###   ########.fr       */
+/*   Updated: 2019/11/25 11:48:59 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,10 +273,10 @@ void TestChr()
 	TestChrOne(ft_strrchr, strrchr, "Banana", '-');
 }
 
-void TestStrnstrOne(const char *needle, const char *haystack, size_t len)
+void TestStrnstrOne(const char *haystack, const char *needle, size_t len)
 {
-	char *exp =    strnstr(needle, haystack, len);
-	char *got = ft_strnstr(needle, haystack, len);
+	char *exp =    strnstr(haystack, needle, len);
+	char *got = ft_strnstr(haystack, needle, len);
 
 	if (exp != got)
 		printf("%s in %s \n Expected: %s \t @ %p \n Returned: %s \t @ %p \n", needle, haystack, exp, exp, got, got);
@@ -287,9 +287,9 @@ void TestStrnstr()
 
 	TestStrnstrOne("BananananaSplit", "nana", 10);
 	TestStrnstrOne("Bananano", "nano", 10);
-	TestStrnstrOne("Bananano", "nano", 3);
-	TestStrnstrOne("Bananano", "N/A", 100);
-	TestStrnstrOne("Bananano", "", 0);
+	TestStrnstrOne("Bananane", "nane", 3);
+	TestStrnstrOne("Bananani", "N/A", 1000);
+	TestStrnstrOne("Banananu", "", 0);
 }
 
 static void TestOneItoa(int value, char* expected)
